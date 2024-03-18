@@ -1,0 +1,36 @@
+﻿@using WebApplicationHospital.Data.Models
+@model IEnumerable<Patient>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>List</title>
+</head>
+<body>
+    <h2>Все пациенты:</h2>
+    @{
+        foreach(var patient in Model)
+        {
+            <div>
+                <p>@patient.LastName @patient.FirstName @patient.Patronymic</p>
+                @if (patient.Photo != null)
+                {
+                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(patient.Photo)" alt="Image from byte array" width="250" height="200">
+                }
+                else
+                {
+                    <p>No image available</p>
+                }
+                <br />
+                <br />
+            </div>
+        }
+    }
+</body>
+</html>
