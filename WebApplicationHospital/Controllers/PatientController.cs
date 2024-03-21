@@ -14,6 +14,8 @@ namespace WebApplicationHospital.Controllers
 
         public ViewResult List()
         {
+            //AllPatients произволное название
+            ViewBag.AllPatients = "Все пациента:";
             var patients = allPatients.Patients;
             return View(patients);
         }

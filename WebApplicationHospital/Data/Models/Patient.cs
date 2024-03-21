@@ -1,4 +1,6 @@
-﻿namespace WebApplicationHospital.Data.Models
+﻿using System.Text.Json.Serialization;
+
+namespace WebApplicationHospital.Data.Models
 {
     public class Patient
     {
@@ -12,7 +14,7 @@
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public byte[] Photo { get; set; }
+        public string PatientPhoto { get; set; }
 
         public Patient() { }
 
@@ -31,7 +33,8 @@
 
             if (patientData[10] != DBNull.Value)
             {
-                Photo = (byte[])patientData[10];
+                byte[] varbinaryData = (byte[])patientData[10];
+                PatientPhoto = Convert.ToBase64String(varbinaryData);
             }
         }
     }

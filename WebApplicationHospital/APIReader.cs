@@ -11,7 +11,7 @@ namespace WebApplicationHospital
 {
     internal class APIReader
     {
-        private static readonly string url = "http://192.168.0.103:5181";
+        private static readonly string url = "http://192.168.0.103:5181/";
         private static readonly HttpClient client = SettingHttpClient();
 
         public static HttpClient SettingHttpClient()
@@ -29,7 +29,7 @@ namespace WebApplicationHospital
                 return null;
 
             Patient patient = null;
-            HttpResponseMessage response = await client.GetAsync(url + $"/Patient/{id}"); 
+            HttpResponseMessage response = await client.GetAsync(url + $"Patient/Get/{id}"); 
             if (response.IsSuccessStatusCode)
             {
                 patient = await response.Content.ReadFromJsonAsync<Patient>();
@@ -43,7 +43,7 @@ namespace WebApplicationHospital
                 return null;
 
             List<Patient> patients = null;
-            HttpResponseMessage response = await client.GetAsync(url + "/Patient");
+            HttpResponseMessage response = await client.GetAsync(url + "Patient/Get");
             if (response.IsSuccessStatusCode)
             {
                 patients = await response.Content.ReadFromJsonAsync<List<Patient>>();
@@ -57,6 +57,38 @@ namespace WebApplicationHospital
             {
                 await client.GetAsync(url);
                 return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public static async Task<bool> updatePatient(Patient patient)
+        {
+            if (!await canConnectToAPI())
+                return false;
+
+            try
+            {
+                HttpResponseMessage response = await client.PutAsJsonAsync(url + $"/Patient/Put/{patient.Id_Patient}", patient);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public static async Task<bool> addPatient(Patient patient)
+        {
+            if (!await canConnectToAPI())
+                return false;
+
+            try
+            {
+                HttpResponseMessage response = await client.PostAsJsonAsync(url + $"/Patient/Post", patient);
+                return response.IsSuccessStatusCode;
             }
             catch (Exception)
             {
