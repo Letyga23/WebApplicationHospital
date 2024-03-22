@@ -1,5 +1,6 @@
 ﻿@using WebApplicationHospital.Data.Models
 @model IEnumerable<Patient>
+string base54;
 
 @{
     Layout = null;
@@ -13,6 +14,15 @@
     <title>List</title>
 </head>
 <body>
+
+    <button onclick="openFileExplorerAndConvertToBase64(document.getElementById('selectedImage'))">Выбрать файл</button>
+    <br />
+    <br />
+    <div id="imageBox">
+        <p>Изображение будет отображаться здесь</p>
+        <img id="selectedImage" src="#" alt="Выбранное изображение" width="250" height="200">
+    </div>
+
     <h1>@ViewBag.AllPatients</h1>
     @{
         foreach (var patient in Model)
@@ -31,5 +41,38 @@
             </div>
         }
     }
+
+    <script>
+        function openFileExplorerAndConvertToBase64(imageElement) {
+            var input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function (e) {
+                var file = e.target.files[0];
+                var reader = new FileReader();
+                reader.onload = function () {
+                    imageElement.src = reader.result;
+                    // После загрузки изображения, конвертируем его в base64
+                    convertImageToBase64(imageElement);
+                }
+                reader.readAsDataURL(file);
+            }
+            input.click();
+        }
+
+        function convertImageToBase64(imageElement) {
+            var canvas = document.createElement('canvas');
+            var context = canvas.getContext('2d');
+            canvas.width = imageElement.width;
+            canvas.height = imageElement.height;
+
+            context.drawImage(imageElement, 0, 0);
+
+            base64 = canvas.toDataURL('image/jpeg');
+            console.log(base64); 
+        }
+
+
+    </script>
 </body>
 </html>
