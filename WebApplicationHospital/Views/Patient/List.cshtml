@@ -18,7 +18,7 @@
         foreach (var patient in Model)
         {
             <div>
-                <p>@patient.LastName @patient.FirstName @patient.Patronymic</p>
+                ФИО: @patient.LastName @patient.FirstName @patient.Patronymic
                 @if (patient.PatientPhoto != null)
                 {
                     <img src="data:image/jpeg;base64,@patient.PatientPhoto" alt="Image from byte array" width="250" height="200">
@@ -27,8 +27,7 @@
                 {
                     <p>No image available</p>
                 }
-                <br />
-                <br />
+                <br /> <br /> <br /> <br />
             </div>
         }
     }
